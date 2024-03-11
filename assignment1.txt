@@ -1,0 +1,55 @@
+1) The relationship between the product and the product category table involves a primary key - foreign key relationship.
+
+This relationship is established to maintain integrity between two tables in which each product holds a valid product category. 
+
+Both tables consists of unque entity called primary key.
+
+In the above diagram :
+product table (parent table): This table contains information about the individual products . It also includes attributes such as productID (primary key),name,DESC,categoryID(foreign key of product table  and primary key of product category table),price etc...
+
+product category (child table): This table contains information about the different product categories .It includes attributes such as  categoryID(primary key of product category table  AND foreign key of product table),name,desc,price etc...
+
+Relationship : The relationship between these two tables is established using a foreign key constraint. In the product table, there is usually a column called CategoryID that refers the primary key of the product category table. This column is a foreign key in the product table, meaning it holds values that correspond to the primary key values in the product category table.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2) To ensure that each product in the product table has a valid category assigned to it :
+
+1)define foreign key constraint :  In the product table create the foreign key constraint that references the primary key of product category table which creates referential integrity between two tables.
+
+we can run this code :
+ALTER TABLE Product
+ADD CONSTRAINT FK_Product_Category
+FOREIGN KEY (CategoryID)
+REFERENCES ProductCategory(CategoryID);
+
+2)define NOT NULL constraint: Ensure that the CategoryID column in the product table does not allow NULL values. This constraint ensures that every product must have a valid category assigned to it.
+ALTER TABLE Product
+MODIFY CategoryID INT NOT NULL;
+
+3)Insert Data with Valid Category IDs: When inserting new products into the product table, make sure to specify a valid CategoryID that exists in the product category table. This step is crucial to ensure that each product is associated with a valid category.
+
+INSERT INTO Product (ID, Name, desc, Price, CategoryID,etc)
+VALUES (.........); 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3)Creating a simple schema in SQL with two tables product and product category.
+
+
+#Create Product table
+CREATE TABLE Product (
+    ID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    SKU VARCHAR(100) NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    inventory_id
+    Category_id INT,
+    FOREIGN KEY (CategoryID) REFERENCES Product_Category(Category_id)
+);
+#product: This table stores information about products it consists of different collumns such as ID(primary key),name,desc,price,category ID(foreign key),inventory id(foreign key) etc.
+
+#Creating Product category table
+CREATE TABLE Product Category (
+    ID INT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Desc VARCHAR(255)
+);
+#product category table : this table stores information about product categories.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
